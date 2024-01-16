@@ -3,8 +3,10 @@ package com.java8.java8;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.DoubleSummaryStatistics;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class EmployeeMain {
@@ -45,7 +47,39 @@ public class EmployeeMain {
         // Q7. Find out the oldest employee, his/her age and department?
         // method7(employeeList);
         // Q8. Find out the average and total salary of the organization.
-        method8(employeeList);
+        // method8(employeeList);
+        // Q9. List down the employees of each department.
+        // method9(employeeList);
+        // Q10. Find out the highest experienced employees in the organization
+        method10(employeeList);
+    }
+
+    private static void method10(List<Employee> employeeList) {
+
+        Optional<Employee> seniorEmp = employeeList.stream()
+                .sorted(Comparator
+                        .comparingInt(Employee::getYearOfJoining))
+                .findFirst();
+
+        Employee seniorMostEmployee = seniorEmp.get();
+
+        System.out.println("Senior Most Employee Details :");
+        System.out.println("----------------------------");
+        System.out.println("ID : " + seniorMostEmployee.getId());
+        System.out.println("Name : " + seniorMostEmployee.getName());
+        System.out.println("Age : " + seniorMostEmployee.getAge());
+    }
+
+    private static void method9(List<Employee> employeeList) {
+        employeeList.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment))
+                .forEach((department, employeesInDepartment) -> {
+                    System.out.println("Department: " + department);
+                    System.out.println("Employees: " + employeesInDepartment.stream()
+                            .map(Employee::getName)
+                            .collect(Collectors.toList()));
+                    System.out.println();
+                });
     }
 
     private static void method8(List<Employee> employeeList) {
