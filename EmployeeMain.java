@@ -1,6 +1,8 @@
 package com.java8.java8;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,11 +30,60 @@ public class EmployeeMain {
         employeeList.add(new Employee(277, "Anuj Chettiar", 31, "Male", "Product Development", 2012, 35700.0));
         // Q1.Find out the count of male and female employees present in the
         // organization?
-       // mathod1(employeeList);
+        // mathod1(employeeList);
         // Q2. Write a program to print the names of all departments in the
         // organization.
-        mathod2(employeeList);
+        // mathod2(employeeList);
+        // Q3. Find the average age of Male and Female Employees.
+        // mathod3(employeeList);
+        // Q4. Get the Names of employees who joined after 2015.
+        // method4(employeeList);
+        // Q5. Count the number of employees in each department.
+        // method5(employeeList);
+        // Q6. Find out the average salary of each department.
+        // method6(employeeList);
+        // Q7. Find out the oldest employee, his/her age and department?
+        // method7(employeeList);
+        // Q8. Find out the average and total salary of the organization.
+        method8(employeeList);
+    }
 
+    private static void method8(List<Employee> employeeList) {
+        DoubleSummaryStatistics collect = employeeList.stream()
+                .collect(Collectors.summarizingDouble(Employee::getSalary));
+        System.out.println("avgSalary: " + collect.getAverage());
+        System.out.println("totalSalary: = " + collect.getSum());
+    }
+
+    private static void method7(List<Employee> employeeList) {
+        Employee employee = employeeList.stream().max(Comparator.comparing(Employee::getAge)).get();
+        System.out.println(employee);
+        System.out.println(employee.getAge() + "/" + employee.getDepartment());
+
+    }
+
+    private static void method6(List<Employee> employeeList) {
+        Map<String, Double> salavg = employeeList.stream().collect(
+                Collectors.groupingBy(Employee::getDepartment, Collectors.averagingDouble(Employee::getSalary)));
+        System.out.println(salavg);
+    }
+
+    private static void method5(List<Employee> employeeList) {
+        Map<String, Long> map = employeeList.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting()));
+        System.out.println(map);
+    }
+
+    private static void method4(List<Employee> employeeList) {
+        List<String> list = employeeList.stream().filter(dt -> dt.getYearOfJoining() > 2015)
+                .map(dt -> dt.getName()).collect(Collectors.toList());
+        System.out.println(list);
+    }
+
+    private static void mathod3(List<Employee> employeeList) {
+        Map<String, Double> avgAge = employeeList.stream()
+                .collect(Collectors.groupingBy(Employee::getGender, Collectors.averagingInt(Employee::getAge)));
+        System.out.println(avgAge);
     }
 
     private static void mathod2(List<Employee> employeeList) {
