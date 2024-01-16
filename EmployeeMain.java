@@ -28,7 +28,16 @@ public class EmployeeMain {
         employeeList.add(new Employee(277, "Anuj Chettiar", 31, "Male", "Product Development", 2012, 35700.0));
         // Q1.Find out the count of male and female employees present in the
         // organization?
-        mathod1(employeeList);
+       // mathod1(employeeList);
+        // Q2. Write a program to print the names of all departments in the
+        // organization.
+        mathod2(employeeList);
+
+    }
+
+    private static void mathod2(List<Employee> employeeList) {
+        List<String> depList = employeeList.stream().map(Employee::getDepartment).collect(Collectors.toList());
+        System.out.println(depList);
     }
 
     private static void mathod1(List<Employee> employeeList) {
