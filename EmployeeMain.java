@@ -2,6 +2,8 @@ package com.java8.java8;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class EmployeeMain {
     public static void main(String[] args) {
@@ -24,5 +26,14 @@ public class EmployeeMain {
         employeeList.add(new Employee(255, "Ali Baig", 23, "Male", "Infrastructure", 2018, 12700.0));
         employeeList.add(new Employee(266, "Sanvi Pandey", 26, "Female", "Product Development", 2015, 28900.0));
         employeeList.add(new Employee(277, "Anuj Chettiar", 31, "Male", "Product Development", 2012, 35700.0));
+        // Q1.Find out the count of male and female employees present in the
+        // organization?
+        mathod1(employeeList);
+    }
+
+    private static void mathod1(List<Employee> employeeList) {
+        Map<String, Long> gender = employeeList.stream()
+                .collect(Collectors.groupingBy(Employee::getGender, Collectors.counting()));
+        System.out.println(gender);
     }
 }
